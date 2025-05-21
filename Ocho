@@ -1,0 +1,61 @@
+import java.util.*;
+ 
+public class RobotManager {
+    private ArrayList<Robot> robots = new ArrayList<>();
+ 
+    public RobotManager() {
+        // Inicialización de datos
+        robots.add(new Robot(1, "ALPHA", 80, 100, "DRON"));
+        robots.add(new Robot(20, "OMEGA", 40, 55, "SUBMARINO"));
+        robots.add(new Robot(150, "TITAN", 90, 80, "TERRESTRE"));
+        robots.add(new Robot(95, "NEBULA", 60, 60, "AÉREO"));
+    }
+ 
+    public ArrayList<Robot> getRobots() {
+        return robots;
+    }
+ 
+    public String mostrarRobots() {
+        StringBuilder sb = new StringBuilder();
+        for (Robot r : robots) {
+            sb.append(r).append("\n");
+        }
+        return sb.toString();
+    }
+ 
+    public boolean agregarOActualizarRobot(Robot nuevo) {
+        for (int i = 0; i < robots.size(); i++) {
+            if (robots.get(i).getId() == nuevo.getId()) {
+                robots.set(i, nuevo);
+                return false; // reemplazado
+            }
+        }
+        robots.add(nuevo);
+        return true; // agregado
+    }
+ 
+    public ArrayList<Robot> buscarPorCategoria(String categoria) {
+        ArrayList<Robot> resultado = new ArrayList<>();
+        for (Robot r : robots) {
+            if (r.getCategoria().equalsIgnoreCase(categoria)) {
+                int nuevaEnergia = Math.min(r.getEnergia() + 20, 100);
+                r.setEnergia(nuevaEnergia);
+                resultado.add(r);
+            }
+        }
+        return resultado;
+    }
+ 
+    public Robot buscarPorID(int id) {
+        for (Robot r : robots) {
+            if (r.getId() == id) {
+                return r;
+            }
+        }
+        return null;
+    }
+ 
+    public void ordenarPorID() {
+        robots.sort(Comparator.comparingInt(Robot::getId));
+    }
+}
