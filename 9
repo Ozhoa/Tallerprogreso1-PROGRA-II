@@ -1,0 +1,96 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class VentanaRobotManager extends JFrame {
+    private RobotManager gestor;
+
+    // Componentes
+    private JTextField txtId, txtNombre, txtEnergia, txtPuntaje;
+    private JComboBox<String> cmbCategoria, cmbBuscarCategoria;
+    private JTextArea txtResultado;
+    private JButton btnAgregar, btnBuscarCategoria, btnEditar, btnOrdenar, btnLimpiar;
+
+    public VentanaRobotManager() {
+        setTitle("Gestor de Robots");
+        setSize(600, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        gestor = new RobotManager();
+
+        initComponents();
+        agregarEventos();
+        mostrarTodosLosRobots();
+    }
+
+    private void initComponents() {
+        // Panel principal
+        JPanel panel = new JPanel(new BorderLayout());
+
+        // Panel superior - Formulario
+        JPanel panelFormulario = new JPanel(new GridLayout(5, 2, 5, 5));
+        txtId = new JTextField();
+        txtNombre = new JTextField();
+        txtEnergia = new JTextField();
+        txtPuntaje = new JTextField();
+        cmbCategoria = new JComboBox<>(new String[]{"DRON", "TERRESTRE", "SUBMARINO", "AÉREO"});
+
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Robot"));
+        panelFormulario.add(new JLabel("ID:"));
+        panelFormulario.add(txtId);
+        panelFormulario.add(new JLabel("Nombre:"));
+        panelFormulario.add(txtNombre);
+        panelFormulario.add(new JLabel("Energía:"));
+        panelFormulario.add(txtEnergia);
+        panelFormulario.add(new JLabel("Puntaje:"));
+        panelFormulario.add(txtPuntaje);
+        panelFormulario.add(new JLabel("Categoría:"));
+        panelFormulario.add(cmbCategoria);
+
+        // Panel medio - Botones
+        JPanel panelBotones = new JPanel(new GridLayout(2, 3, 5, 5));
+        btnAgregar = new JButton("Agregar / Reemplazar");
+        btnBuscarCategoria = new JButton("Buscar por Categoría");
+        btnEditar = new JButton("Editar por ID");
+        btnOrdenar = new JButton("Ordenar por ID");
+        btnLimpiar = new JButton("Limpiar");
+        cmbBuscarCategoria = new JComboBox<>(new String[]{"DRON", "TERRESTRE", "SUBMARINO", "AÉREO"});
+
+        panelBotones.setBorder(BorderFactory.createTitledBorder("Acciones"));
+        panelBotones.add(btnAgregar);
+        panelBotones.add(btnEditar);
+        panelBotones.add(btnOrdenar);
+        panelBotones.add(cmbBuscarCategoria);
+        panelBotones.add(btnBuscarCategoria);
+        panelBotones.add(btnLimpiar);
+
+        // Panel inferior - Área de resultado
+        txtResultado = new JTextArea(10, 50);
+        txtResultado.setEditable(false);
+        JScrollPane scroll = new JScrollPane(txtResultado);
+
+        // Ensamblar todo
+        panel.add(panelFormulario, BorderLayout.NORTH);
+        panel.add(panelBotones, BorderLayout.CENTER);
+        panel.add(scroll, BorderLayout.SOUTH);
+
+        add(panel);
+    }
+
+    private void agregarEventos() {
+        // Aquí irán los listeners como btnAgregar.addActionListener(...)
+        // los colocaremos en la siguiente etapa de desarrollo
+    }
+
+    private void mostrarTodosLosRobots() {
+        txtResultado.setText("");
+        for (Robot r : gestor.getRobots()) {
+            txtResultado.append(r.toString() + "\n");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new VentanaRobotManager().setVisible(true));
+    }
+}
